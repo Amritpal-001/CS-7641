@@ -1,3 +1,5 @@
+import numpy as np
+
 class KMeans(object):
     
     def __init__(self): #No need to implement
