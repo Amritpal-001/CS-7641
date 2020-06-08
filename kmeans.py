@@ -1,3 +1,7 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+
 class KMeans(object):
     
     def __init__(self): #No need to implement
