@@ -57,7 +57,7 @@ class KMeans(object):
         """
         centers = []
         for k in range(old_centers.shape[0]):
-            p_cluster = points[cluster_idx==k]
+            p_cluster = points[np.arange(cluster_idx.shape[0])*cluster_idx==k]
             new_cluster = np.mean(p_cluster, axis=0) 
             centers.append(new_cluster)
         return np.asarray(centers).reshape(old_centers.shape)
@@ -71,7 +71,8 @@ class KMeans(object):
         Return:
             loss: a single float number, which is the objective function of KMeans. 
         """
-        raise NotImplementedError
+        loss = self.pairwise_dist()
+        return loss
         
     def __call__(self, points, K, max_iters=100, abs_tol=1e-16, rel_tol=1e-16, verbose=False, **kwargs):
         """
@@ -116,5 +117,6 @@ class KMeans(object):
         """
         
         raise NotImplementedError
+
 
 
