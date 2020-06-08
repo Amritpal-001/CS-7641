@@ -41,6 +41,9 @@ class KMeans(object):
             
         Hint: You could call pairwise_dist() function.
         """
+        # NxK matrix of distances
+        dist = self.pairwise_dist(points, centers)
+        return np.argmax(dist, axis=1)
         raise NotImplementedError
 
     def _update_centers(self, old_centers, cluster_idx, points): # [10 pts]
@@ -108,3 +111,4 @@ class KMeans(object):
         """
         
         raise NotImplementedError
+
