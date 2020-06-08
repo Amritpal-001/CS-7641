@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 class KMeans(object):
     
@@ -26,7 +28,8 @@ class KMeans(object):
         Return:
             centers: K x D numpy array, the centers. 
         """
-        raise NotImplementedError
+        return points[np.random.choice(points.shape[0], K)]
+
 
     def _update_assignment(self, centers, points): # [10 pts]
         """
