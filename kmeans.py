@@ -43,8 +43,8 @@ class KMeans(object):
         """
         # NxK matrix of distances
         dist = self.pairwise_dist(points, centers)
-        return np.argmax(dist, axis=1)
-        raise NotImplementedError
+        cluster_idx = np.argmax(dist, axis=1)
+        return cluster_idx
 
     def _update_centers(self, old_centers, cluster_idx, points): # [10 pts]
         """
@@ -55,7 +55,12 @@ class KMeans(object):
         Return:
             centers: new centers, K x D numpy array, where K is the number of clusters, and D is the dimension.
         """
-        raise NotImplementedError
+        centers = []
+        for k in range(old_centers.shape[0]):
+            p_cluster = points[cluster_idx==k]
+            new_cluster = np.mean(p_cluster, axis=0) 
+            centers.append(new_cluster)
+        return np.asarray(centers).reshape(old_centers.shape)
 
     def _get_loss(self, centers, cluster_idx, points): # [5 pts]
         """
@@ -111,4 +116,5 @@ class KMeans(object):
         """
         
         raise NotImplementedError
+
 
