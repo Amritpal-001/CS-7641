@@ -1,7 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
-
-
 class KMeans(object):
     
     def __init__(self): #No need to implement
@@ -44,8 +40,7 @@ class KMeans(object):
         # NxK matrix of distances
         dist = self.pairwise_dist( points, centers)
         assert dist.shape ==(len(points), centers.shape[0])
-        cluster_idx = np.argmax(dist, axis=1)
-        print(cluster_idx)
+        cluster_idx = np.argmin(dist, axis=1)
         assert len(cluster_idx) == len(points)
         return cluster_idx
 
@@ -60,12 +55,7 @@ class KMeans(object):
         """
         centers = []
         for k in range(old_centers.shape[0]):
-            mask = cluster_idx==k
-            mask = mask[:,None]
-#             print(mask)
-            p_cluster = points*mask
-#             print(p_cluster.shape)
-            assert len(p_cluster)==len(mask)
+            p_cluster = points[np.argwhere(cluster_idx==k)][:,0,:]
             new_cluster = np.mean(p_cluster, axis=0) 
             assert new_cluster.shape[0] == old_centers.shape[1]
             centers.append(new_cluster)
@@ -84,10 +74,9 @@ class KMeans(object):
         for idx, c in enumerate(centers):
             mask = cluster_idx==idx
             mask = mask[:,None]
-#             print(mask)
             p_cluster = points*mask
             loss+=np.linalg.norm(p_cluster-c)
-#         print(loss)
+#             print(loss)
         return loss
         
     def __call__(self, points, K, max_iters=100, abs_tol=1e-16, rel_tol=1e-16, verbose=False, **kwargs):
