@@ -75,12 +75,13 @@ class KMeans(object):
             loss: a single float number, which is the objective function of KMeans. 
         """
         loss=0
+#         print(centers)
         for idx, c in enumerate(centers):
-            mask = cluster_idx==idx
-            mask = mask[:,None]
-            p_cluster = points*mask
-            loss+=np.linalg.norm(p_cluster-c)
-#             print(loss)
+#             print(idx)
+            p_cluster = points[np.argwhere(cluster_idx==idx)]
+            tmp_loss = np.sum(np.square(self.pairwise_dist(p_cluster,c)),axis=1).sum()
+#             print("tmp loss = {0} , cluster {1}".format(tmp_loss, idx))
+            loss+=tmp_loss
         return loss
         
     def __call__(self, points, K, max_iters=100, abs_tol=1e-16, rel_tol=1e-16, verbose=False, **kwargs):
@@ -124,5 +125,10 @@ class KMeans(object):
             losses: a list, which includes the loss values for different number of clusters in K-Means
             Plot loss values against number of clusters
         """
-        
-        raise NotImplementedError
+        losses = []
+        for k in range(1, max_K):
+            cluster_idxk, centersk, lossk = self.__call__(data, k)
+            losses.append(lossk)
+        plt.plot(losses)
+        return losses
+
