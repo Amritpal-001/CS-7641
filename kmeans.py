@@ -13,9 +13,8 @@ class KMeans(object):
                 dist: N x M array, where dist2[i, j] is the euclidean distance between 
                 x[i, :] and y[j, :]
                 """
-        d =y.T - x[:,:,None]
-        return np.linalg.norm(d, axis=1)
-​
+        return np.sqrt(np.sum(np.square(y.T-x[:,:,None]), axis=1))
+
     def _init_centers(self, points, K, **kwargs): # [5 pts]
         """
         Args:
@@ -26,7 +25,7 @@ class KMeans(object):
             centers: K x D numpy array, the centers. 
         """
         raise NotImplementedError
-​
+
     def _update_assignment(self, centers, points): # [10 pts]
         """
         Args:
@@ -38,7 +37,7 @@ class KMeans(object):
         Hint: You could call pairwise_dist() function.
         """
         raise NotImplementedError
-​
+
     def _update_centers(self, old_centers, cluster_idx, points): # [10 pts]
         """
         Args:
@@ -49,7 +48,7 @@ class KMeans(object):
             centers: new centers, K x D numpy array, where K is the number of clusters, and D is the dimension.
         """
         raise NotImplementedError
-​
+
     def _get_loss(self, centers, cluster_idx, points): # [5 pts]
         """
         Args:
