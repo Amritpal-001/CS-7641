@@ -15,7 +15,7 @@ class GMM(object):
         logits = logits.astype(dtype=np.float128)
         denom = np.sum(np.exp(logits,dtype=np.float128),axis=1, dtype=np.float128)
         print(denom)
-        return np.exp(logits,dtype=np.float128)/denom
+        return np.exp(logits,dtype=np.float128)/denom.reshape(4)
         
     def logsumexp(self,logits): # [5pts]
         """
