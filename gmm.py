@@ -12,7 +12,8 @@ class GMM(object):
         Return:
             logits: N x D numpy array
         """
-        denom = np.exp(logits).sum(axis=1)
+        logits = logits.astype(dtype=np.float128)
+        denom = np.sum(np.exp(logits),axis=1, dtype=np.float128)
         print(denom)
         return np.exp(logits)/denom
         
