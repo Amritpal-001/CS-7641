@@ -14,7 +14,6 @@ class GMM(object):
         """
         logits = logits.astype(dtype=np.float128)
         denom = np.sum(np.exp(logits,dtype=np.float128),axis=1, dtype=np.float128)
-        print(denom)
         return np.exp(logits,dtype=np.float128)/denom[:,np.newaxis]
         
     def logsumexp(self,logits): # [5pts]
@@ -24,7 +23,7 @@ class GMM(object):
         Return:
             s: N x 1 array where s[i,0] = logsumexp(logits[i,:])
         """
-        return np.log(np.exp(logits).sum(axis=1))
+        return np.log(np.exp(logits,dtype=np.float128 ).sum(axis=1))
 
     def _init_components(self, points, K, **kwargs): # [5pts]
         """
@@ -39,7 +38,13 @@ class GMM(object):
             array for full covariance matrix case
             
         """
-        raise NotImplementedError
+        pi = [i/K for i in range(K)]
+        mu = np.random.choice(points,K)
+        sigma = np.zeros((len(mu),mu.shape[1],mu.shape[1]))
+        for i in range(len(mu)):
+            sigma[i] = np.random.random_integers(-2000,2000,size=(mu.shape[1],mu.shape[1]))
+        sigma = (sigma + sigma.T)/2
+        return pi, mu, sigma
 
 
     def _ll_joint(self, points, pi, mu, sigma, **kwargs): # [10pts]
