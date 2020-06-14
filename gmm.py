@@ -12,7 +12,9 @@ class GMM(object):
         Return:
             logits: N x D numpy array
         """
-        return np.exp(logits)/np.exp(logits).sum(axis=1)
+        denom = np.exp(logits).sum(axis=1)
+        print(denom)
+        return np.exp(logits)/denom
         
     def logsumexp(self,logits): # [5pts]
         """
