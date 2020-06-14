@@ -1,4 +1,5 @@
 import numpy as np
+from kmeans import KMeans
 from tqdm import tqdm
 
 class GMM(object):
@@ -40,9 +41,9 @@ class GMM(object):
         """
         sigma = np.zeros((K,points.shape[1],points.shape[1]))
         pi = [i/K for i in range(K)]
-        clusters_idx, mu, _ = KMeans()(points,K, verbose=True)
+        clusters_idx, mu, _ = KMeans()(points,K, verbose=False)
         for i,cluster_id in enumerate(clusters_idx):
-            cluster = points[clusters_idx]
+            cluster = points[cluster_id]
             sigma[i] = np.cov(cluster)
         return pi, mu, sigma
 
