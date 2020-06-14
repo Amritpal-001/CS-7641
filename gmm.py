@@ -38,12 +38,12 @@ class GMM(object):
             array for full covariance matrix case
             
         """
+        sigma = np.zeros((K,points.shape[1],points.shape[1]))
         pi = [i/K for i in range(K)]
-        mu = np.random.choice(points,K)
-        sigma = np.zeros((len(mu),mu.shape[1],mu.shape[1]))
-        for i in range(len(mu)):
-            sigma[i] = np.random.random_integers(-2000,2000,size=(mu.shape[1],mu.shape[1]))
-        sigma = (sigma + sigma.T)/2
+        clusters_idx, mu, _ = KMeans()(points,K, verbose=True)
+        for i,cluster_id in enumerate(clusters_idx):
+            cluster = points[clusters_idx]
+            sigma[i] = np.cov(cluster)
         return pi, mu, sigma
 
 
